@@ -10,11 +10,53 @@
     <div id="root"></div>
 
     <script type="text/babel">
-       
+
+        // Hooks는 함수로 만들어서 사용
+        const GUGUDan = () => {
+            const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+            const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+            const [value, setValue] = React.useState('');
+            const [result, setResult] = React.useState('');
+            const onRefinput = React.useRef(null);
+
+            const onChange = (e) => {
+                setValue(e.target.value);
+            }
+
+            const onSubmit = (e) => {
+                e.preventDefault();
+                if(parseInt(value) === first * second){
+                    setResult(value + " 은(는) 정답! ");
+                    setFirst(Math.ceil(Math.random() * 9 ));
+                    setSecond(Math.ceil(Math.random() * 9 ));
+                    setValue('');
+                    onRefinput.current.focus();
+                }else{
+                    setResult(value + " 은(는) 땡! ");
+                    setValue('');
+                    onRefinput.current.focus();
+                }
+            }
+
+            return (
+                <React.Fragment>
+                    <div>{first} * {second} = ? </div>
+                    <form onSubmit = {onSubmit}>
+                        <input ref = {onRefinput} type="number" value={value} onChange = {onChange} />
+                        <button>입력</button> 
+                    </form>
+                    <div>{result}</div>
+                </React.Fragment>
+            )
+
+        }
+        
+        
+        
     </script>
 
     <script type="text/babel">
-          ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
+          ReactDOM.render(<GUGUDan />, document.querySelector('#root'));
     </script>
 
 
